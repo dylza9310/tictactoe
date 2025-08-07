@@ -47,7 +47,7 @@ def human_vs_human():
 def human_vs_computer():
     import random
     while board.count("x") + board.count("o") < 9:
-        x = int(input("Player 1 pick a position (0-8): "))
+        x = int(input("Player pick a position (0-8): "))
         if board[x] == '':
             board[x] = 'x'
             print(board)
