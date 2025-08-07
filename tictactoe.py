@@ -1,5 +1,3 @@
-board = ['', '', '', '', '', '', '', '', '']
-
 def check_win():
     """Check if there is a winner."""
     # Define the winning conditions
@@ -14,7 +12,8 @@ def restart_game():
     if input().lower() != 'no':
         global board
         board = ['', '', '', '', '', '', '', '', '']
-        print("Game restarted. New board:", board)
+        print("Game restarted. New board:")
+        main()
     else:
         print("Thanks for playing!")
         
@@ -124,15 +123,20 @@ def human_vs_intermediatecomputer():
             restart_game()
             return
 
-str(print("Welcome to Tic Tac Toe!"))
-str(print("Choose game mode: 1 for Human vs Human, 2 for Human vs Easy Computer, 3 for Human vs Intermediate Computer"))
-game_mode = input("Enter 1, 2 or 3: ")
-if game_mode == '1':
-    human_vs_human()
-elif game_mode == '2':
-    human_vs_easycomputer()
-elif game_mode == '3':
-    human_vs_intermediatecomputer()
-else:
-    print("Invalid choice. Please restart the game and choose a valid mode.")
-    exit()
+def main():
+    
+    str(print("Welcome to Tic Tac Toe!"))
+    str(print("Choose game mode: '1' for 2 Players, '2' for Easy AI, '3' for Intermediate AI"))
+    game_mode = input("Enter 1, 2 or 3: ")
+    if game_mode == '1':
+        human_vs_human()
+    elif game_mode == '2':
+        human_vs_easycomputer()
+    elif game_mode == '3':
+        human_vs_intermediatecomputer()
+    else:
+        print("Invalid choice. Please restart the game and choose a valid mode.")
+        exit()
+
+board = ['', '', '', '', '', '', '', '', '']
+main()
