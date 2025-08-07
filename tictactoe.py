@@ -100,6 +100,7 @@ def human_vs_intermediatecomputer():
 
         print("Intermediate Computer's turn...")
         # Placeholder for intermediate computer logic
+        # 
         blocked = False
         for condition in win_conditions:
             if all(board[i] == 'o' for i in condition if board[i] != '') and any(board[i] == '' for i in condition):
@@ -125,7 +126,7 @@ def human_vs_intermediatecomputer():
 
 str(print("Welcome to Tic Tac Toe!"))
 str(print("Choose game mode: 1 for Human vs Human, 2 for Human vs Easy Computer, 3 for Human vs Intermediate Computer"))
-game_mode = input("Enter 1 or 2: ")
+game_mode = input("Enter 1, 2 or 3: ")
 if game_mode == '1':
     human_vs_human()
 elif game_mode == '2':
