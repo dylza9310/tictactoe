@@ -16,6 +16,8 @@ def restart_game():
         main()
     else:
         print("Thanks for playing!")
+        exit()
+
         
 def human_vs_human():
         while board.count("x") + board.count("o") < 9:
@@ -28,6 +30,7 @@ def human_vs_human():
                     restart_game()
             else:
                 print("Position already taken. Try again.")
+                continue
                 
             y = int(input("Player 2 pick a position (0-8): "))
             if board[x] == '' or board[y] == '':
@@ -56,7 +59,6 @@ def human_vs_easycomputer():
                 return
         else:
             print("Position already taken. Try again.")
-            continue
 
         print("Computer's turn...")
         # Computer picks a random empty spot
@@ -72,7 +74,7 @@ def human_vs_easycomputer():
             restart_game()
             return
 
-        if board.count("x") + board.count("o") >= 9:
+        if board.count("x") + board.count("o") >= 8:
             print("Game Over. It's a draw!")
             restart_game()
             return
@@ -96,6 +98,7 @@ def human_vs_intermediatecomputer():
         else:
             print("Position already taken. Try again.")
             continue
+        
 
         print("Intermediate Computer's turn...")
         # Placeholder for intermediate computer logic
@@ -118,25 +121,93 @@ def human_vs_intermediatecomputer():
             restart_game()
             return
 
-        if board.count("x") + board.count("o") >= 9:
+        if board.count("x") + board.count("o") >= 8:
             print("Game Over. It's a draw!")
             restart_game()
             return
 
-def main():
-    
+def minimax(board, depth, is_maximizing):
+    #Check if the game is over
+    if check_win():
+        return 1 if is_maximizing else -1
+    if board.count('') == 0:
+        return 0
+
+    if is_maximizing:
+        best_score = float('-inf')
+        for i in range(9): # Loop through all possible moves
+            if board[i] == '': # If the position is empty
+                board[i] = 'o' 
+                score = minimax(board, depth + 1, False) # Evaluate the move
+                board[i] = ''
+                best_score = max(score, best_score)
+        return best_score
+    else:
+        best_score = float('+inf')
+        for i in range(9):
+            if board[i] == '':
+                board[i] = 'x'
+                score = minimax(board, depth + 1, True)
+                board[i] = ''
+                best_score = min(score, best_score)
+        return best_score
+
+def human_vs_hardcomputer():
+    while board.count("x") + board.count("o") < 9:
+        x = int(input("Player pick a position (0-8): "))
+        if board[x] == '':
+            board[x] = 'x'
+            print(board)
+            if check_win():
+                print("Player wins!")
+                restart_game()
+                return
+        else:
+            print("Position already taken. Try again.")
+            continue
+            
+        print("Hard Computer's turn...")
+        # Hard computer uses minimax algorithm
+        best_score = float('-inf') # Initialize best score
+        best_move = None 
+        
+        for i in range(9): # Loop through all possible moves
+            if board[i] == '': # If the position is empty
+                board[i] = 'o' # Make the move
+                score = minimax(board, 0, False) # Evaluate the move
+                board[i] = '' # Undo the move
+                if score > best_score:  # If this move is better than the best found so far
+                    best_score = score # Update the best score
+                    best_move = i  # Update the best move
+        if best_move is not None:
+            board[best_move] = 'o'
+            print(f"Hard Computer chose position {best_move}")
+            print(board)
+            if check_win():
+                print("Hard Computer wins!")
+                restart_game()
+                return
+
+        if board.count("x") + board.count("o") >= 8:
+            print("Game Over. It's a draw!")
+            restart_game()
+            return
+
+def main(): 
     str(print("Welcome to Tic Tac Toe!"))
-    str(print("Choose game mode: '1' for 2 Players, '2' for Easy AI, '3' for Intermediate AI"))
-    game_mode = input("Enter 1, 2 or 3: ")
+    str(print("Choose game mode: '1' for 2 Players, '2' for Easy AI, '3' for Intermediate AI, '4' for Hard AI"))
+    game_mode = input("Enter 1, 2, 3 or 4: ")
     if game_mode == '1':
         human_vs_human()
     elif game_mode == '2':
         human_vs_easycomputer()
     elif game_mode == '3':
         human_vs_intermediatecomputer()
+    elif game_mode == '4':
+        human_vs_hardcomputer()
     else:
         print("Invalid choice. Please restart the game and choose a valid mode.")
-        exit()
+        main()  # Restart the game after it ends
 
 board = ['', '', '', '', '', '', '', '', '']
 main()
